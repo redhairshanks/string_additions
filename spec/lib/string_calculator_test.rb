@@ -13,5 +13,9 @@ describe StringCalculator do
     it 'returns sum of two numbers' do
       expect(StringCalculator.add('1,2')).to eq(3)
     end
+
+    it 'returns sum of any numbers' do
+      expect(StringCalculator.add('1,2,3,4,5')).to eq(15)
+    end
   end
 end
