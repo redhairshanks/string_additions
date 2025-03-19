@@ -1,4 +1,4 @@
-require 'string_calculator'
+require_relative '../../string_calculator'
 
 describe StringCalculator do
   describe '.add' do
@@ -19,9 +19,21 @@ describe StringCalculator do
     end
 
     it 'handles new lines between numbers' do
-      expect(StringCalculator.add('1\n2,3')).to eq(6)
-      expect(StringCalculator.add('1\n2\n3')).to eq(6)
-      expect(StringCalculator.add('1\n2\n3\n4\n5,6,7,8')).to eq(45)
+      expect(StringCalculator.add("1\n2,3")).to eq(6)
+      expect(StringCalculator.add("1\n2\n3")).to eq(6)
+      expect(StringCalculator.add("1\n2\n3\n4\n5,6,7,8")).to eq(36)
+    end
+
+    it "handles different delimiters" do
+      expect(StringCalculator.add("//;\n1;2")).to eq(3)
+      expect(StringCalculator.add("//;\n1;2;3")).to eq(6)
+      expect(StringCalculator.add("//;\n1\n2\n3\n4\n5;6;7;8")).to eq(36)
+    end
+
+    it "throws an exception when negative numbers are provided" do
+      expect{StringCalculator.add("1,-2")}.to raise_error("Negatives not allowed: -2")
+      expect{StringCalculator.add("1,-2,-3")}.to raise_error("Negatives not allowed: -2, -3")
+      expect{StringCalculator.add("//;\n1;-2;-3")}.to raise_error("Negatives not allowed: -2, -3")
     end
   end
 end
